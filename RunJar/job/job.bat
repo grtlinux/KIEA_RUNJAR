@@ -7,18 +7,16 @@
 set JAVA_HOME=N:\PROG\jdk1.7.0_79
 set PATH=%PATH%;%JAVA_HOME%\bin
 
-::set LIB_PATH=N:\WORK\workspaceluna7_git_deploy1\RunJar\libs
+::set LIB_PATH=L:\WORK\GITHUB\KIEA_RUNJAR\RunJar\libs
 
 set JOB_NAME=tain-runjar-1.0
 
-cd %JOB_NAME%
-goto JAR_CVMF
+::goto JAR_CVMF
 
 ::-----------------------------------------------------------------------------------------
 :MK_DIR
 
 mkdir %JOB_NAME%
-
 cd %JOB_NAME%
 
 ::-----------------------------------------------------------------------------------------
@@ -29,31 +27,30 @@ jar xvf ../%JOB_NAME%.jar
 ::-----------------------------------------------------------------------------------------
 :COPY_LIBS
 
-mkdir lib1
-mkdir lib2
-mkdir lib3
+mkdir libs
 
-copy %LIB_PATH%\ant.jar              lib1
-copy %LIB_PATH%\commons-net-3.3.jar  lib2
-copy %LIB_PATH%\log4j-1.2.17.jar     lib3
+copy %LIB_PATH%\ant.jar              libs
+copy %LIB_PATH%\commons-net-3.3.jar  libs
+copy %LIB_PATH%\log4j-1.2.17.jar     libs
 
 ::-----------------------------------------------------------------------------------------
 :MAKE_MANIFEST
 
-echo Class-Path: ./lib1 >  manifest.txt
-:: echo  ./lib1 >> manifest.txt
-echo  ant.jar >> manifest.txt
-echo  ./lib2 >> manifest.txt
-echo  commons-net-3.3.jar >> manifest.txt
-echo  ./lib3 >> manifest.txt
-echo  log4j-1.2.17.jar >> manifest.txt
-echo Main-Class: tain.kr.main.Main >> manifest.txt
+echo Manifest-Version: 1.0 > manifest.txt
+echo Rsrc-Class-Path: ./ >> manifest.txt
+echo   lib1/ant.jar >> manifest.txt
+echo   lib2/commons-net-3.3.jar >> manifest.txt
+echo   lib3/log4j-1.2.17.jar >> manifest.txt
+echo Class-Path: . >> manifest.txt
+echo Rsrc-Main-Class: tain.kr.main.Main >> manifest.txt
+echo Main-Class: tain.kr.jar.v02.JarRsrcLoader >> manifest.txt
 
 ::-----------------------------------------------------------------------------------------
 :: jar cvfm ../%JOB_NAME%.jar manifest.txt *
+:: jar cvfM ../%JOB_NAME%.jar *
 :JAR_CVMF
 
-jar cvfM ../%JOB_NAME%.jar *
+jar cvfm ../%JOB_NAME%.jar manifest.txt *
 
 ::-----------------------------------------------------------------------------------------
 :RM_FOLDER
@@ -61,7 +58,7 @@ jar cvfM ../%JOB_NAME%.jar *
 cd ..
 
 ::rmdir /S /Q %JOB_NAME%
-::rmdir /S %JOB_NAME%
+rmdir /S %JOB_NAME%
 
 ::-----------------------------------------------------------------------------------------
 :RUN_JAR
