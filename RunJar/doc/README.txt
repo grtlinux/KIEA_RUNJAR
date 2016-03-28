@@ -224,6 +224,16 @@ Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
 Main-Class: tain.kr.jar.JarRsrcLoader
 
 ------------------------------------------------------------------------------------------------------------------
+[ manifest.txt | META-INF/MANIFEST.MF ]
+
+Manifest-Version: 1.0
+Rsrc-Class-Path: ./
+  libs/ant.jar
+  libs/commons-net-3.3.jar
+  libs/log4j-1.2.17.jar
+Rsrc-Main-Class: tain.kr.test.main.Main
+Main-Class: tain.kr.jar.v02.JarRsrcLoader
+
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------
