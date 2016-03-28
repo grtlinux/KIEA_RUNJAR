@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Rsrc-Class-Path: ./
+  lib1/ant.jar
+  lib2/commons-net-3.3.jar
+  lib3/log4j-1.2.17.jar
+Rsrc-Main-Class: tain.kr.main.Main
+Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
