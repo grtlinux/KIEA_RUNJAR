@@ -23,9 +23,9 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-import tain.kr.common.Version;
-import tain.kr.util.CheckSystem;
-import tain.kr.util.DateTime;
+import tain.kr.test.common.Version;
+import tain.kr.test.util.CheckSystem;
+import tain.kr.test.util.DateTime;
 
 /**
  * Code Templates > Comments > Types
