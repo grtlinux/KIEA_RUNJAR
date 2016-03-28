@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.jar;
+package tain.kr.jar.v01;
 
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;

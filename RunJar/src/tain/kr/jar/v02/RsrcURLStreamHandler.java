@@ -17,12 +17,10 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.jar;
+package tain.kr.jar.v02;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
 
 /**
  * Code Templates > Comments > Types
@@ -43,41 +41,29 @@ import java.net.URLStreamHandler;
  * @author taincokr
  *
  */
-public class RsrcURLStreamHandler extends URLStreamHandler {
+public class RsrcURLStreamHandler extends java.net.URLStreamHandler {
 
-	//private static boolean flag = true;
-
-	//private static final Logger log = Logger.getLogger(RsrcURLStreamHandler.class);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
 	private ClassLoader classLoader;
 	
 	public RsrcURLStreamHandler(ClassLoader classLoader) {
-		this.classLoader = classLoader;
+    	this.classLoader = classLoader;
 	}
-	
-	protected URLConnection openConnection(URL u) throws IOException {
-		return new RsrcURLConnection(u, this.classLoader);
-	}
-	
-	protected void parseURL(URL url, String spec, int start, int limit) {
-		String file;
-		
-		if (spec.startsWith(JIJConstants.INTERNAL_URL_PROTOCOL_WITH_COLON)) {
-			file = spec.substring(5);
-		} else if (url.getFile().equals(JIJConstants.CURRENT_DIR)) {
-			file = spec;
-		} else if (url.getFile().endsWith(JIJConstants.PATH_SEPARATOR)) {
-			file = url.getFile() + spec;
-		} else {
-			file = spec;
-		}
-		
-		setURL(url, JIJConstants.INTERNAL_URL_PROTOCOL, "", -1, null, null, file, null, null);
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected java.net.URLConnection openConnection(URL u) throws IOException {
+    	return new RsrcURLConnection(u, classLoader);
+    }
+
+    protected void parseURL(URL url, String spec, int start, int limit) {
+    	String file;
+    	if (spec.startsWith(JIJConstants.INTERNAL_URL_PROTOCOL_WITH_COLON))  
+    		file = spec.substring(5);
+    	else if (url.getFile().equals(JIJConstants.CURRENT_DIR))
+    		file = spec;
+    	else if (url.getFile().endsWith(JIJConstants.PATH_SEPARATOR)) 
+    		file = url.getFile() + spec;
+    	else 
+    		file = spec;
+    	setURL(url, JIJConstants.INTERNAL_URL_PROTOCOL, "", -1, null, null, file, null, null);	 //$NON-NLS-1$ 
+    }
 
 }
