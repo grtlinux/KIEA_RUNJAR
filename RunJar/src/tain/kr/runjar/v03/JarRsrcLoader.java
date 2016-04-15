@@ -304,7 +304,7 @@ public class JarRsrcLoader {
 	
 	public static void main(String[] args) throws Exception {
 		
-		if (flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		if (!flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (!flag) test01(args);
 		if (flag) test02(args);
