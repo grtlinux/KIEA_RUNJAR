@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.jar.v01;
+package tain.kr.runjar.v01;
 
 import java.io.IOException;
 import java.io.InputStream;

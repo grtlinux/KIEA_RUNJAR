@@ -17,19 +17,25 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.jar.v01;
+package tain.kr.runjar.v01;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : RsrcURLStreamHandlerFactory.java
+ *   -. FileName   : RsrcURLStreamHandler.java
  *   -. Package    : tain.kr.com.test.runJar.v01
  *   -. Comment    :
  *                   This class will be compiled into the binary jar-in-jar-loader.zip. This ZIP is used for the "Runnable JAR File Exporter"
+ *                   
+ *                   Handle URLs with protocol "rsrc". "rsrc:path/file.ext" identifies the contents accessible as 
+ *                   classLoader.getResourceAsStream("path/file.ext"). "rsrc:path/" identifies a base-path for
+ *                   resources to be searched. The spec "file.ext" is combined to "rsrc:path/file.ext."
  *   -. Author     : taincokr
  *   -. First Date : 2016. 3. 28. {time}
  * </PRE>
@@ -37,59 +43,41 @@ import java.net.URLStreamHandlerFactory;
  * @author taincokr
  *
  */
-public class RsrcURLStreamHandlerFactory implements URLStreamHandlerFactory {
+public class RsrcURLStreamHandler extends URLStreamHandler {
 
 	//private static boolean flag = true;
 
-	//private static final Logger log = Logger.getLogger(RsrcURLStreamHandlerFactory.class);
+	//private static final Logger log = Logger.getLogger(RsrcURLStreamHandler.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private ClassLoader classLoader;
-	private URLStreamHandlerFactory chainFac;
 	
-	public RsrcURLStreamHandlerFactory(ClassLoader cl) {
-		
-		this.classLoader = cl;
+	public RsrcURLStreamHandler(ClassLoader classLoader) {
+		this.classLoader = classLoader;
 	}
 	
-	public URLStreamHandler createURLStreamHandler(String protocol) {
-		
-		if (JIJConstants.INTERNAL_URL_PROTOCOL.equals(protocol)) {
-			return new RsrcURLStreamHandler(this.classLoader);
-		}
-		
-		if (this.chainFac != null) {
-			return this.chainFac.createURLStreamHandler(protocol);
-		}
-		
-		return null;
+	protected URLConnection openConnection(URL u) throws IOException {
+		return new RsrcURLConnection(u, this.classLoader);
 	}
 	
-	/**
-	 * 
-	 * Code Templates > Comments > Methods
-	 *
-	 * <PRE>
-	 *   -. ClassName  : RsrcURLStreamHandlerFactory
-	 *   -. MethodName : setURLStreamHandlerFactory
-	 *   -. Comment    :
-	 *                   Allow on other URLStreamHandler to be added.
-	 *                   URL.setURLStreamHandlerFactory does not allow
-	 *                   multiple factories to be added.
-	 *                   The Chained factory is called for all other protocols,
-	 *                   except "rsrc". Use null to clear previously set Handler.
-	 *                   @param fac another factory to be chained with ours.
-	 *   -. Author     : taincokr
-	 *   -. First Date : 2016. 3. 28. {time}
-	 * </PRE>
-	 *
-	 * @param fac
-	 */
-	public void setURLStreamHandlerFactory(URLStreamHandlerFactory fac) {
-		this.chainFac = fac;
+	protected void parseURL(URL url, String spec, int start, int limit) {
+		String file;
+		
+		if (spec.startsWith(JIJConstants.INTERNAL_URL_PROTOCOL_WITH_COLON)) {
+			file = spec.substring(5);
+		} else if (url.getFile().equals(JIJConstants.CURRENT_DIR)) {
+			file = spec;
+		} else if (url.getFile().endsWith(JIJConstants.PATH_SEPARATOR)) {
+			file = url.getFile() + spec;
+		} else {
+			file = spec;
+		}
+		
+		setURL(url, JIJConstants.INTERNAL_URL_PROTOCOL, "", -1, null, null, file, null, null);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
 }

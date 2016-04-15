@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.jar.v01;
+package tain.kr.runjar.v03;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,11 +31,10 @@ import java.net.URLDecoder;
  *
  * <PRE>
  *   -. FileName   : RsrcURLConnection.java
- *   -. Package    : tain.kr.com.test.runJar.v01
+ *   -. Package    : tain.kr.com.test.runJar.v02
  *   -. Comment    :
- *                   This class will be compiled into the binary jar-in-jar-loader.zip. This ZIP is used for the "Runnable JAR File Exporter"
  *   -. Author     : taincokr
- *   -. First Date : 2016. 3. 28. {time}
+ *   -. First Date : 2016. 4. 15. {time}
  * </PRE>
  *
  * @author taincokr
@@ -43,31 +42,34 @@ import java.net.URLDecoder;
  */
 public class RsrcURLConnection extends URLConnection {
 
-	//private static boolean flag = true;
-
-	//private static final Logger log = Logger.getLogger(RsrcURLConnection.class);
+	private static boolean flag = true;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private ClassLoader classLoader;
+	private ClassLoader classLoader = null;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public RsrcURLConnection(URL url, ClassLoader classLoader) {
 		super(url);
 		this.classLoader = classLoader;
 	}
 	
-	public void connect() throws IOException {}
+	public void connect() throws IOException {
+		
+	}
 	
 	public InputStream getInputStream() throws IOException {
 		String file = URLDecoder.decode(url.getFile(), JIJConstants.UTF8_ENCODING);
-		InputStream result = classLoader.getResourceAsStream(file);
-		if (result == null) {
-			throw new MalformedURLException("Could not open InputStream for URL '" + url + "'");
+		if (!flag) System.out.println("URL : " + file);
+		
+		InputStream is = classLoader.getResourceAsStream(file);
+		if (is == null) {
+			throw new MalformedURLException("Could not open InputStreasm for URL '" + url + "'");
 		}
 		
-		return result;
+		return is;
 	}
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 }

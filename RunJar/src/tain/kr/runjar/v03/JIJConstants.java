@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.jar.v01;
+package tain.kr.runjar.v03;
 
 
 /**
@@ -25,13 +25,10 @@ package tain.kr.jar.v01;
  *
  * <PRE>
  *   -. FileName   : JIJConstants.java
- *   -. Package    : tain.kr.com.test.runJar.v01
+ *   -. Package    : tain.kr.com.test.runJar.v02
  *   -. Comment    :
- *                   Constants used in the Jar-in-Jar loader.
- *                   Some of these are duplicated in JIJConstants in the source for the Runnable Jar File export Wizard:
- *                   {@link org.eclipse.jdt.internal.ui.jarpackagerfat}
  *   -. Author     : taincokr
- *   -. First Date : 2016. 3. 28. {time}
+ *   -. First Date : 2016. 4. 15. {time}
  * </PRE>
  *
  * @author taincokr
@@ -41,7 +38,7 @@ final class JIJConstants {
 
 	//private static boolean flag = true;
 
-	//private static final Logger log = Logger.getLogger(RsrcURLStreamHandlerFactory.class);
+	//private static final Logger log = Logger.getLogger(JIJConstants.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
