@@ -21,8 +21,6 @@ package tain.kr.test.main;
 
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Logger;
-
 import tain.kr.test.common.Version;
 import tain.kr.test.util.CheckSystem;
 import tain.kr.test.util.DateTime;
@@ -44,8 +42,6 @@ import tain.kr.test.util.DateTime;
 public class Main {
 
 	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(Main.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -82,13 +78,13 @@ public class Main {
 			DateTime.getInstance().print();
 			
 			Main main = new Main();
-			log.debug("main > " + main.getDesc());
+			System.out.println("main > " + main.getDesc());
 		}
 	}
 	
 	public static void main(String[] args) throws Exception {
 		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		if (flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
 	}
