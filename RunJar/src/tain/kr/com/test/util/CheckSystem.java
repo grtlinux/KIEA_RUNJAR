@@ -17,16 +17,17 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.test.common;
+package tain.kr.com.test.util;
 
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
  * Code Templates > Comments > Types
  *
  * <PRE>
- *   -. FileName   : Version.java
- *   -. Package    : tain.kr.common
+ *   -. FileName   : CheckSystem.java
+ *   -. Package    : tain.kr.util
  *   -. Comment    :
  *   -. Author     : taincokr
  *   -. First Date : 2016. 3. 28. {time}
@@ -35,7 +36,7 @@ import java.util.ResourceBundle;
  * @author taincokr
  *
  */
-public class Version {
+public class CheckSystem {
 
 	private static boolean flag = true;
 
@@ -43,43 +44,96 @@ public class Version {
 	
 	private String clsName = null;
 	
-	private String desc = null;
-	private String version = null;
+	private String systemKey = null;
+	private String strWin = null;
+	private String strLinux = null;
 	
-	private Version() throws Exception {
+	private Properties prop = null;
+	
+	private CheckSystem() throws Exception {
+		
 		if (flag) {
 			this.clsName = this.getClass().getName();
 			
 			ResourceBundle rb = ResourceBundle.getBundle(this.clsName.replace('.', '/'));
 			
-			this.desc = rb.getString("tain.kr.common.version.desc");
-			this.version = rb.getString("tain.kr.common.version");
+			this.systemKey = rb.getString("tain.kr.util.check.system.key");
+			this.strWin = rb.getString("tain.kr.util.check.system.win.string");
+			this.strLinux = rb.getString("tain.kr.util.check.system.linux.string");
+			
+			this.prop = System.getProperties();
 		}
 	}
 	
-	public String getDesc() throws Exception {
-		return this.desc;
+	private String get(String key) throws Exception {
+		
+		String val = null;
+		
+		if (flag) {
+			val = this.prop.getProperty(key);
+		}
+		
+		return val;
 	}
 	
-	public String getVersion() throws Exception {
-		return this.version;
+	private String get(String key, String def) throws Exception {
+		
+		String val = null;
+		
+		if (flag) {
+			val = this.prop.getProperty(key, def);
+		}
+		
+		return val;
+	}
+	
+	public boolean isWindows() throws Exception {
+		
+		boolean ret = false;
+
+		if (!flag) {
+			String osName = get(this.systemKey, "");
+			if (osName.indexOf("Win", 0) >= 0) {
+				return true;
+			}
+		}
+		
+		if (flag) {
+			String osName = get(this.systemKey);
+			if (osName.indexOf("Win", 0) >= 0) {
+				return true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public boolean isLinux() throws Exception {
+		return isWindows() ? false : true;		
+	}
+	
+	public String getSystemName() throws Exception {
+		
+		if (isLinux()) {
+			return this.strLinux;
+		} else {
+			return this.strWin;
+		}
 	}
 	
 	public void print() throws Exception {
-		if (flag) {
-			System.out.println("desc > " + this.desc);
-			System.out.println("version > " + this.version);
-		}
+		
+		if (flag) System.out.println("info > " + getSystemName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static Version instance = null;
+	private static CheckSystem instance = null;
 	
-	public static synchronized Version getInstance() throws Exception {
+	public static synchronized CheckSystem getInstance() throws Exception {
 		
 		if (instance == null) {
-			instance = new Version();
+			instance = new CheckSystem();
 		}
 		
 		return instance;
@@ -92,11 +146,12 @@ public class Version {
 	private static void test01(String[] args) throws Exception {
 		
 		if (flag) {
-			Version.getInstance().print();
+			CheckSystem.getInstance().print();
 		}
 	}
 	
 	public static void main(String[] args) throws Exception {
+		
 		if (flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);

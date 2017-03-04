@@ -17,7 +17,7 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.test.util;
+package tain.kr.com.test.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

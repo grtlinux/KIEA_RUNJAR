@@ -17,13 +17,13 @@
  * Copyright 2014, 2015, 2016 TAIN, Inc.
  *
  */
-package tain.kr.test.main;
+package tain.kr.com.test.main;
 
 import java.util.ResourceBundle;
 
-import tain.kr.test.common.Version;
-import tain.kr.test.util.CheckSystem;
-import tain.kr.test.util.DateTime;
+import tain.kr.com.test.common.Version;
+import tain.kr.com.test.util.CheckSystem;
+import tain.kr.com.test.util.DateTime;
 
 /**
  * Code Templates > Comments > Types
