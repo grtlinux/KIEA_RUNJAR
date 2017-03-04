@@ -1,17 +1,21 @@
-Manifest-Version: 1.1
+Manifest-Version: 1.0
  
-Package: tain.kr.com.proj.cosmarter
+Title: RunJar 1.4 of TAIN
  
-Created-By: TAIN, Inc. ver1.1
+Version: ver1.4
  
-Title: CoSmarter 1.1 of TAIN
+Package: tain.kr.runjar
+ 
+Created-By: TAIN, Inc.
+ 
+Company: TAIN, Inc.
  
 Etc-Content: 
   libs/commons-net-3.3.jar
   libs/log4j-1.2.17.jar
   libs/gson-2.6.2.jar
  
-Provider: Kiea Seok Kang    kiea@tain.co.kr  at 17.03.03
+Provider: Kiea Seok Kang    kiea@tain.co.kr  at 16.03.28
  
 Class-Path: .
  
