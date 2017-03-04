@@ -21,8 +21,6 @@ package tain.kr.test.common;
 
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Logger;
-
 /**
  * Code Templates > Comments > Types
  *
@@ -40,8 +38,6 @@ import org.apache.log4j.Logger;
 public class Version {
 
 	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(Version.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -71,8 +67,8 @@ public class Version {
 	
 	public void print() throws Exception {
 		if (flag) {
-			log.info("desc > " + this.desc);
-			log.info("version > " + this.version);
+			System.out.println("desc > " + this.desc);
+			System.out.println("version > " + this.version);
 		}
 	}
 	
@@ -101,7 +97,7 @@ public class Version {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		if (flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
 	}
