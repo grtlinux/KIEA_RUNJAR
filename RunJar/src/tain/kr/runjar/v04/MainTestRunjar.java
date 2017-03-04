@@ -46,6 +46,7 @@ public class MainTestRunjar {
 	
 	private static final String KEY_SYSTEM_DESC = "tain.kr.desc";
 	private static final String KEY_RUNJAR_DESC = "tain.kr.runjar.desc";
+	private static final String KEY_MAIN_CLASS = "tain.kr.runjar.main.class";
 	
 	private final Properties prop;
 	private final ResourceBundle resourceBundle;
@@ -62,6 +63,7 @@ public class MainTestRunjar {
 		
 		if (flag) System.out.println(String.format("System.getProperties -> [%s] = [%s]", KEY_SYSTEM_DESC, this.prop.getProperty(KEY_SYSTEM_DESC)));
 		if (flag) System.out.println(String.format("ResourceBundle.getBundle -> [%s] = [%s]", KEY_RUNJAR_DESC, this.resourceBundle.getString(KEY_RUNJAR_DESC)));
+		if (flag) System.out.println(String.format("ResourceBundle.getBundle -> [%s] = [%s]", KEY_MAIN_CLASS, this.resourceBundle.getString(KEY_MAIN_CLASS)));
 		
 		if (flag)
 			System.out.println(">>>>> in class " + this.getClass().getSimpleName());
@@ -70,7 +72,7 @@ public class MainTestRunjar {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String getMainClass() throws Exception {
-		return this.resourceBundle.getString(KEY_RUNJAR_DESC);
+		return this.resourceBundle.getString(KEY_MAIN_CLASS);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
