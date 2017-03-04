@@ -22,8 +22,6 @@ package tain.kr.test.util;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Logger;
-
 /**
  * Code Templates > Comments > Types
  *
@@ -41,8 +39,6 @@ import org.apache.log4j.Logger;
 public class CheckSystem {
 
 	private static boolean flag = true;
-
-	private static final Logger log = Logger.getLogger(CheckSystem.class);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -127,7 +123,7 @@ public class CheckSystem {
 	
 	public void print() throws Exception {
 		
-		if (flag) log.info("info > " + getSystemName());
+		if (flag) System.out.println("info > " + getSystemName());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +152,7 @@ public class CheckSystem {
 	
 	public static void main(String[] args) throws Exception {
 		
-		if (flag) log.debug(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
+		if (flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 		
 		if (flag) test01(args);
 	}
