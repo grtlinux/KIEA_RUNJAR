@@ -4,10 +4,11 @@ DOS> jar cvfm GsonTest.jar src/META-INF/MANIFEST.MF -C out .
 
 DOS> java -jar GsonTest.jar
 
-.....
 DOS> tree /f /a
-VBOX__VB_SHARE 볼륨에 대한 폴더 경로의 목록입니다.
-볼륨 일련 번호는 0100-0004입니다.
+
+    VBOX__VB_SHARE 볼륨에 대한 폴더 경로의 목록입니다.
+    볼륨 일련 번호는 0100-0004입니다.
+
 E:.
 |   GsonTest.jar
 |
