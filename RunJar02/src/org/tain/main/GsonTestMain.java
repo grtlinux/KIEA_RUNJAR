@@ -251,9 +251,9 @@ public class GsonTestMain {
 	public static void main(String[] args) {
 		if (flag) System.out.println(">>>>> " + new Object(){}.getClass().getEnclosingClass().getName());
 
-		if (!flag) test01();
+		if (flag) test01();
 		if (!flag) test02();
-		if (flag) test03();
-		if (flag) test04();
+		if (!flag) test03();
+		if (!flag) test04();
 	}
 }
