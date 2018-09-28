@@ -5,6 +5,7 @@ DOS> set JAVA_HOME=C:\tain\java\jdk1.8.0_152
 DOS> set PATH=%JAVA_HOME%\bin;%PATH%
 
 DOS> java -version
+
     java version "1.8.0_152"
     Java(TM) SE Runtime Environment (build 1.8.0_152-b16)
     Java HotSpot(TM) 64-Bit Server VM (build 25.152-b16, mixed mode)
