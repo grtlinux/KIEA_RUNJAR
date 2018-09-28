@@ -96,7 +96,7 @@ public final class RunJarLoader {
 	///////////////////////////////////////////////////////////////////////////
 
 	private static void test01(String[] args) throws Exception {
-		if (flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
+		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 
 		if (flag) {
 			ManifestInfo manifestInfo = getManifestInfo();
@@ -129,7 +129,7 @@ public final class RunJarLoader {
 	}
 
 	public static void main(String[] args) throws Exception {
-		if (flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
+		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 
 		if (flag) test01(args);
 	}
