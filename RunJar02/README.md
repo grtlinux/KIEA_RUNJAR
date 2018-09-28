@@ -1,10 +1,13 @@
 # About RunJar
 
-DOS> set JAVA_HOME=C:\tain\java\jdk1.8.0_152
+This project is for jar file which is needed to execute.
 
-DOS> set PATH=%JAVA_HOME%\bin;%PATH%
 
-DOS> java -version
+    DOS> set JAVA_HOME=C:\tain\java\jdk1.8.0_152
+
+    DOS> set PATH=%JAVA_HOME%\bin;%PATH%
+
+    DOS> java -version
 
     java version "1.8.0_152"
     Java(TM) SE Runtime Environment (build 1.8.0_152-b16)
@@ -12,11 +15,11 @@ DOS> java -version
 
     DOS> javac -cp ".;out/lib/*" -d out src/org/tain/runjar/*.java src/org/tain/utils/*.java src/org/tain/main/*.java
 
-DOS> jar cvfm GsonTest.jar src/META-INF/MANIFEST.MF -C out .
+    DOS> jar cvfm GsonTest.jar src/META-INF/MANIFEST.MF -C out .
 
-DOS> java -jar GsonTest.jar
+    DOS> java -jar GsonTest.jar
 
-DOS> tree /f /a
+    DOS> tree /f /a
 
     VBOX__VB_SHARE 볼륨에 대한 폴더 경로의 목록입니다.
     볼륨 일련 번호는 0100-0004입니다.
