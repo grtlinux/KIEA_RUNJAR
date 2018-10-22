@@ -206,11 +206,21 @@ public final class RunJarLoader {
 				ResourceBundle rb = ResourceBundle.getBundle(resourcePath);
 				
 				if (args.length == 0) {
+					// default
 					String mainClass = rb.getString("org.tain.runjar.default");
 					Class<?> cls = Class.forName(mainClass, true, jceClassLoader);
 					Method main = cls.getMethod("main", new Class[] { args.getClass() });
 					main.invoke((Object) null, new Object[] { args });
+				} if (args.length > 0) {
+					// argument
+					String key = "org.tain.runjar." + args[0];
+					String mainClass = rb.getString(key);
+					
+					Class<?> cls = Class.forName(mainClass, true, jceClassLoader);
+					Method main = cls.getMethod("main", new Class[] { args.getClass() });
+					main.invoke((Object) null, new Object[] { args });
 				} else {
+					// not use
 					for (String arg : args) {
 						String key = "org.tain.runjar." + arg;
 						String mainClass = rb.getString(key);
@@ -230,7 +240,7 @@ public final class RunJarLoader {
 		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 
 		if (!flag) {
-			args = new String[] { "test01", "test02", };
+			args = new String[] { "test01", };
 		}
 		
 		if (!flag) test01(args);
