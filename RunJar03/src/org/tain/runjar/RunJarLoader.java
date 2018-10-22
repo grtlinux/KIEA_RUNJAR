@@ -5,9 +5,11 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -164,6 +166,19 @@ public final class RunJarLoader {
 	private static void test03(String[] args) throws Exception {
 		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 
+		if (!flag) {
+			String resourcePath = new Object() {}.getClass().getEnclosingClass().getName().replace('.', '/');
+			if (flag) System.out.printf(">>>>> %s%n", resourcePath);
+			
+			ResourceBundle rb = ResourceBundle.getBundle(resourcePath);
+			for (String key : rb.keySet()) {
+				String val = rb.getString(key);
+				if (flag) System.out.printf(">>>>> [%s=%s]%n", key, val);
+			}
+			
+			if (flag) System.out.println(">>>>> args = " + Arrays.asList(args));
+		}
+		
 		if (flag) {
 			ManifestInfo manifestInfo = getManifestInfo();
 
@@ -187,9 +202,26 @@ public final class RunJarLoader {
 				ClassLoader jceClassLoader = new URLClassLoader(rsrcUrls, null);
 				Thread.currentThread().setContextClassLoader(jceClassLoader);
 
-				Class<?> cls = Class.forName(manifestInfo.getRsrcMainClass(), true, jceClassLoader);
-				Method main = cls.getMethod("main", new Class[] { args.getClass() });
-				main.invoke((Object) null, new Object[] { args });
+				String resourcePath = new Object() {}.getClass().getEnclosingClass().getName().replace('.', '/');
+				ResourceBundle rb = ResourceBundle.getBundle(resourcePath);
+				
+				if (args.length == 0) {
+					String mainClass = rb.getString("org.tain.runjar.default");
+					Class<?> cls = Class.forName(mainClass, true, jceClassLoader);
+					Method main = cls.getMethod("main", new Class[] { args.getClass() });
+					main.invoke((Object) null, new Object[] { args });
+				} else {
+					for (String arg : args) {
+						String key = "org.tain.runjar." + arg;
+						String mainClass = rb.getString(key);
+						
+						Class<?> cls = Class.forName(mainClass, true, jceClassLoader);
+						Method main = cls.getMethod("main", new Class[] { args.getClass() });
+						main.invoke((Object) null, new Object[] { args });
+						
+						try { Thread.sleep(2000); } catch (InterruptedException e) {}
+					}
+				}
 			}
 		}
 	}
@@ -197,6 +229,10 @@ public final class RunJarLoader {
 	public static void main(String[] args) throws Exception {
 		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 
+		if (!flag) {
+			args = new String[] { "test01", "test02", };
+		}
+		
 		if (!flag) test01(args);
 		if (!flag) test02(args);
 		if (flag) test03(args);
