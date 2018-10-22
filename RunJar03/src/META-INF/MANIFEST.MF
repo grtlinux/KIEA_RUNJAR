@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Title: RunJar
+Version: ver 3.0
+Package: org.tain.runjar
+Created-By: TAIN, Inc.
+Company: TAIN, Inc.
+Author: Kiea Seok Kang
+Comment: it's for you.
+Main-Class: org.tain.runjar.RunJarLoader
+Class-Path: .
+Rsrc-Main-Class: org.tain.main.GsonTestMain
+Rsrc-Class-Path: ./
+  lib/json-20180813.jar
+  lib/log4j-1.2.17.jar
+  lib/slf4j-api-1.7.12.jar
+  lib/slf4j-jdk14-1.7.12.jar
+
+
+
+
