@@ -9,21 +9,23 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.tain.utils.ClassUtils;
 
 public final class RunJarLoader {
 
 	private static final boolean flag;
-	private static final String className;
-	private static final String resourcePath;
+	//private static final String className;
+	//private static final String resourcePath;
 	private static final ResourceBundle resourceBundle;
 	
 	static {
 		flag = true;
-		className = new Object() {}.getClass().getEnclosingClass().getName();
-		resourcePath = className.replace('.', '/');
-		resourceBundle = ResourceBundle.getBundle(resourcePath);
+		//className = new Object() {}.getClass().getEnclosingClass().getName();
+		//resourcePath = className.replace('.', '/');
+		resourceBundle = ResourceBundle.getBundle("resources");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -43,16 +45,18 @@ public final class RunJarLoader {
 		}
 		
 		if (flag) {
+			// TODO KANG-20181026: reading the meaning of this sector.
 			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(metaLib);
 			while (urls.hasMoreElements()) {
 				URL url = (URL) urls.nextElement();
-				if (!flag) System.out.printf(">>>>> url = %s%n", url );
+				//url = new URL("file:/C:/hanwha/_TEMP/runjar/Runjar01.jar!/META-INF/lib/");
+				if (flag) System.out.printf(">>>>> metaLib=%s, url=%s%n", metaLib, url);
 				
 				File libJars = new File(url.toURI());
 				jarFiles = libJars.list();
 			}
 			
-			if (!flag) {
+			if (flag) {
 				// print jarFiles
 				for (String jarFile : jarFiles) {
 					System.out.printf(">>>>> %s%n", jarFile);
@@ -92,6 +96,54 @@ public final class RunJarLoader {
 		}
 	}
 	
+	private static void test02(String[] args) throws Exception {
+		
+		if (flag) {
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF");
+			while (urls.hasMoreElements()) {
+				URL url = (URL) urls.nextElement();
+				//url = new URL("file:/C:/hanwha/_TEMP/runjar/Runjar01.jar!/META-INF/lib/");
+				if (flag) System.out.printf(">>>>> url=%s%n", url.getPath());
+				
+				if (!url.getPath().contains("RunJar01.jar"))
+					continue;
+				
+				System.out.println(">>>>> contains: " + url.getPath());
+				URL url2 = new URL(url.getPath() + "/lib");
+				System.out.println(">>>>> contains: " + url2.getPath());
+				File libJars = new File(url2.toURI());
+				String[] jarFiles = libJars.list();
+				for (String file : jarFiles) {
+					System.out.println(">>>>>>>>>> " + file);
+				}
+			}
+		}
+		
+		if (!flag) {
+			File jarFile = new File(new Object() {}.getClass().getEnclosingClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+	        String actualFile = jarFile.getParentFile().getAbsolutePath()+File.separator+"Name_Of_Jar_File.jar";
+	        System.out.println("jarFile is : "+jarFile.getAbsolutePath());
+	        System.out.println("actulaFilePath is : "+actualFile);
+	        
+	        actualFile = "C:/hanwha/_TEMP/runjar/RunJar01.jar";
+	        final JarFile jar = new JarFile(actualFile);
+	        final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+	        System.out.println("Reading entries in jar file ");
+	        while(entries.hasMoreElements()) {
+	            JarEntry jarEntry = entries.nextElement();
+	            final String name = jarEntry.getName();
+	            if (name.startsWith("META-INF/lib")) { //filter according to the path
+	                System.out.println("file name is "+name);
+	                System.out.println("is directory : "+jarEntry.isDirectory());
+	                File scriptsFile  = new File(name);
+	                System.out.println("file names are : "+scriptsFile.getAbsolutePath());
+
+	            }
+	        }
+	        jar.close();
+		}
+    }
+	
 	public static void main(String[] args) throws Exception {
 		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 
@@ -111,6 +163,7 @@ public final class RunJarLoader {
 				args = new String[] { "default", };
 		}
 		
-		if (flag) test01(args);
+		if (!flag) test01(args);
+		if (flag) test02(args);
 	}
 }
