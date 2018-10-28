@@ -26,7 +26,7 @@
 
 	DOS> jar cvfm RunJar01.jar out/META-INF/MANIFEST.MF -C out .
 
-	DOS> java -jar KieaThomson.jar
+	DOS> java -jar RunJar01.jar
 
 	DOS> tree /f /a
 

@@ -30,7 +30,7 @@ public final class RunJarLoader {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private static void test01(String[] args) throws Exception {
+	private static void run01(String[] args) throws Exception {
 		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 		
 		String metaLib = resourceBundle.getString("org.tain.runjar.path.lib");
@@ -98,27 +98,6 @@ public final class RunJarLoader {
 	
 	private static void test02(String[] args) throws Exception {
 		
-		if (flag) {
-			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF");
-			while (urls.hasMoreElements()) {
-				URL url = (URL) urls.nextElement();
-				//url = new URL("file:/C:/hanwha/_TEMP/runjar/Runjar01.jar!/META-INF/lib/");
-				if (flag) System.out.printf(">>>>> url=%s%n", url.getPath());
-				
-				if (!url.getPath().contains("RunJar01.jar"))
-					continue;
-				
-				System.out.println(">>>>> contains: " + url.getPath());
-				URL url2 = new URL(url.getPath() + "/lib");
-				System.out.println(">>>>> contains: " + url2.getPath());
-				File libJars = new File(url2.toURI());
-				String[] jarFiles = libJars.list();
-				for (String file : jarFiles) {
-					System.out.println(">>>>>>>>>> " + file);
-				}
-			}
-		}
-		
 		if (!flag) {
 			File jarFile = new File(new Object() {}.getClass().getEnclosingClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
 	        String actualFile = jarFile.getParentFile().getAbsolutePath()+File.separator+"Name_Of_Jar_File.jar";
@@ -142,7 +121,148 @@ public final class RunJarLoader {
 	        }
 	        jar.close();
 		}
+
+		if (!flag) {
+			//URL url = new URL("jar:file:/C:/hanwha/_TEMP/runjar/20181028/RunJar01.jar!/");
+
+			@SuppressWarnings("resource")
+			JarFile jarFile = new JarFile("C:/hanwha/_TEMP/runjar/20181028/RunJar01.jar");
+			Enumeration<JarEntry> entries = jarFile.entries();
+			while (entries.hasMoreElements()) {
+				JarEntry entry = entries.nextElement();
+				if (!entry.getName().startsWith("META-INF/lib"))
+					continue;
+				
+				if (flag) System.out.println(">>>>> entry: " + entry.getName());
+			}
+		}
+		
+		if (!flag) {
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF/lib");
+			while (urls.hasMoreElements()) {
+				URL url = (URL) urls.nextElement();
+				//url = new URL("file:/C:/hanwha/_TEMP/runjar/Runjar01.jar!/META-INF/lib/");
+				if (flag) System.out.printf(">>>>> url=%s%n", url.getPath());
+				
+				if (!url.getPath().contains("RunJar01.jar"))
+					continue;
+				
+				System.out.println(">>>>> contains: " + url.getPath());
+				URL url2 = new URL(url.getPath() + "/lib");
+				System.out.println(">>>>> contains: " + url2.getPath());
+				File libJars = new File(url2.toURI());
+				String[] jarFiles = libJars.list();
+				for (String file : jarFiles) {
+					System.out.println(">>>>>>>>>> " + file);
+				}
+			}
+		}
+		
+		if (flag) {
+			// TODO-KANG-20181028: success!!!
+			String jarFile = null;
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("META-INF/lib");
+			while (urls.hasMoreElements()) {
+				URL url = (URL) urls.nextElement();
+				if (flag) System.out.printf(">>>>> url=[%s] %s%n", url.getProtocol(), url.getPath());
+				
+				if ("jar".equals(url.getProtocol())) {
+					jarFile = url.getPath();
+					jarFile = jarFile.substring(5, jarFile.lastIndexOf('!'));
+					if (flag) System.out.printf(">>>>> jarFile:'%s'%n", jarFile);
+				}
+			}
+			
+			@SuppressWarnings("resource")
+			JarFile jar = new JarFile(jarFile);
+			Enumeration<JarEntry> entries = jar.entries();
+			while (entries.hasMoreElements()) {
+				JarEntry entry = entries.nextElement();
+				if (!entry.getName().startsWith("META-INF/lib"))
+					continue;
+				
+				if (!entry.getName().endsWith("jar"))
+					continue;
+				
+				if (flag) System.out.println(">>>>> entry: " + entry.getName());
+			}
+		}
     }
+	
+	private static void run03(String[] args) throws Exception {
+		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
+		
+		String runClassName = null;
+		String[] runArgs = null;
+
+		String metaLib = resourceBundle.getString("org.tain.runjar.path.lib");
+		String mainJarFile = null;
+		List<String> lstSubJar = new ArrayList<String>();
+		List<URL> lstUrl = null;
+		
+		if (flag) {
+			runClassName = resourceBundle.getString(String.format("org.tain.runjar.%s", args[0]));
+			runArgs = Arrays.copyOfRange(args, 1, args.length);
+		}
+		
+		if (flag) {
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(metaLib);
+			while (urls.hasMoreElements()) {
+				URL url = (URL) urls.nextElement();
+				if (!flag) System.out.printf(">>>>> url=[%s] %s%n", url.getProtocol(), url.getPath());
+				
+				if ("jar".equals(url.getProtocol())) {
+					mainJarFile = url.getPath();
+					mainJarFile = mainJarFile.substring(5, mainJarFile.lastIndexOf('!'));
+					if (!flag) System.out.printf(">>>>> mainJarFile:'%s'%n", mainJarFile);
+				}
+			}
+			
+			@SuppressWarnings("resource")
+			JarFile jarFile = new JarFile(mainJarFile);
+			Enumeration<JarEntry> entries = jarFile.entries();
+			while (entries.hasMoreElements()) {
+				JarEntry entry = entries.nextElement();
+				if (!entry.getName().startsWith(metaLib) || !entry.getName().endsWith("jar"))
+					continue;
+				
+				lstSubJar.add(entry.getName());
+			}
+			
+			if (!flag) System.out.println(">>>>> lstSubJar: " + lstSubJar);
+		}
+
+		if (flag) {
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			URL.setURLStreamHandlerFactory(new RsrcURLStreamHandlerFactory(classLoader));
+			
+			lstUrl = new ArrayList<URL>();
+			lstUrl.add(new URL("rsrc:./"));
+
+			for (String subJar : lstSubJar) {
+				String rsrc = String.format("jar:rsrc:%s/%s!/", metaLib, subJar);
+				if (!flag) System.out.printf(">>>>> %s%n", rsrc);
+				
+				lstUrl.add(new URL(rsrc));
+			}
+			
+			if (!flag) System.out.println(">>>>> lstUrl: " + lstUrl);  // print lstUrl
+		}
+		
+		if (flag) {
+			ClassLoader jceClassLoader = new URLClassLoader(lstUrl.toArray(new URL[lstUrl.size()]), null);
+			Thread.currentThread().setContextClassLoader(jceClassLoader);
+			
+			Class<?> cls = Class.forName(runClassName, true, jceClassLoader);
+			Method main = cls.getMethod("main", new Class[] { runArgs.getClass() });
+			main.invoke((Object) null, new Object[] { runArgs });
+		}
+		
+		if (!flag) {
+			// post execute
+			if (flag) System.out.println(">>>>> POST EXIT..");
+		}
+	}
 	
 	public static void main(String[] args) throws Exception {
 		if (!flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
@@ -163,7 +283,8 @@ public final class RunJarLoader {
 				args = new String[] { "default", };
 		}
 		
-		if (!flag) test01(args);
-		if (flag) test02(args);
+		if (!flag) run01(args);
+		if (!flag) test02(args);
+		if (flag) run03(args);
 	}
 }

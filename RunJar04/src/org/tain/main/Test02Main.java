@@ -14,13 +14,19 @@ public class Test02Main {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	///////////////////////////////////////////////////////////////////////////
-	
-	public static void main(String[] args) throws Exception {
+	private static void run01(String[] args) throws Exception {
 		if (flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 		
 		if (flag) {
 			if (flag) System.out.println(">>>>> " + Arrays.asList(args));
 		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static void main(String[] args) throws Exception {
+		if (flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
+		
+		if (flag) run01(args);
 	}
 }
