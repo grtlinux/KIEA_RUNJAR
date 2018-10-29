@@ -13,6 +13,14 @@ public class UsageMain {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
+
+	private static void test02(String[] args) throws Exception {
+		long val = 123456789012L;
+		double dbl = 1234567890.12;
+		
+		if (flag) System.out.printf("%,d%n", val);
+		if (flag) System.out.printf("%,.3f%n", dbl);
+	}
 	
 	private static void run01(String[] args) throws Exception {
 		if (flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
@@ -44,5 +52,6 @@ public class UsageMain {
 		if (flag) System.out.println(">>>>> " + ClassUtils.getClassInfo());
 		
 		if (flag) run01(args);
+		if (flag) test02(args);
 	}
 }
