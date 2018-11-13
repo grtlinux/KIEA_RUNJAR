@@ -138,9 +138,16 @@ RunJar05
 
 ```
 
-
-### References
-
-[]("")  
+References
+----------
+- [Running Apache Ant](https://ant.apache.org/manual/running.html "Running Apache Ant")
+- [Java](https://ant.apache.org/manual/Tasks/java.html "Java")
+- [Jar](https://ant.apache.org/manual/Tasks/jar.html "Jar")
+- [ANT를 이용한 WAR 파일 생성하기](http://logtree.tistory.com/11 "ANT를 이용한 WAR 파일 생성하기")
+- [Deploy by Ant](http://evilimp.tistory.com/353 "Deploy by Ant")
+- []("")
+- []("")
+- []("")
+- []("")
 .....
 
