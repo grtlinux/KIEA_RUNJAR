@@ -1,11 +1,13 @@
 RunJar05
 ========
-
 > version: 5.0  
 > comment: show menu  
 
-### library
-
+Tools
+-----
+> jdk 1.8.0_191
+> ant 1.9.13
+  
 > src/META-INF  
 > src/META-INF/lib/*.jar <---- here  
 > src/META-INF/MANIFEST.MF  
