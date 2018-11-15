@@ -242,7 +242,7 @@ public final class RunJarLoader {
 			for (String subJar : lstSubJar) {
 				// String rsrc = String.format("jar:rsrc:%s/%s!/", metaLib, subJar);
 				String rsrc = String.format("jar:rsrc:%s!/", subJar);
-				if (flag) System.out.printf(">>>>> %s%n", rsrc);
+				if (!flag) System.out.printf(">>>>> %s%n", rsrc);
 				
 				lstUrl.add(new URL(rsrc));
 			}
